@@ -17,7 +17,9 @@ const App = () => {
   };
   // http://localhost:8000/?publish=true
   const URL = new URLSearchParams(window.location.search).get("publish");
+  const sid = new URLSearchParams(window.location.search).get("ssid");
   console.log("url", URL);
+  console.log("sid", sid);
   if (URL) {
     isPub = true;
   } else {
@@ -25,9 +27,9 @@ const App = () => {
   }
 
   useEffect(() => {
-    signal = new IonSFUJSONRPCSignal("ws://localhost:7000/ws");
+    signal = new IonSFUJSONRPCSignal("ws://10.3.81.45:7070/ws");
     client = new Client(signal, config);
-    signal.onopen = () => client.join("test room");
+    signal.onopen = () => client.join(sid);
 
     if (!isPub) {
       client.ontrack = (track, stream) => {
